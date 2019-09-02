@@ -32,6 +32,10 @@ static void	check_size(t_operation *op)
 		if (op->argument_type[i] < 0)
 			exit(ft_printf("ERROR: negative argument type for op. %d\n",
 					op->unique_id));
+		if (op->argument_type[i] == 1 &&
+			(op->argument[i] < 1 || op->argument[i] > 99))
+			exit(ft_printf("ERROR: invalid registry value for op. %d\n",
+				op->unique_id));
 		if (op->argument_type[i] == 1)
 			size++;
 		if (op->argument_type[i] == 2)
@@ -88,7 +92,7 @@ static void	check_arguments(t_operation *oper, t_label *labels)
 	int		i;
 	int		args_qty;
 	int		allowed;
-
+	
 	i = MAX_ARGS;
 	args_qty = ARGS_QTY[oper->instruction_id];
 	allowed = ARGS_TYPES[oper->instruction_id];
@@ -97,7 +101,7 @@ static void	check_arguments(t_operation *oper, t_label *labels)
 		i--;
 		if (oper->argument_type[i] != 0)
 			exit(ft_printf("ERROR: too many arguments for instr nr %d",
-				oper->unique_id));
+						   oper->unique_id));
 		allowed /= 10;
 	}
 	while (i > 0)
@@ -105,9 +109,9 @@ static void	check_arguments(t_operation *oper, t_label *labels)
 		i--;
 		if (oper->argument_type[i] < 0 || oper->arg_is_label[i] != 0)
 			check_labels(oper, labels, i);
-		if ((oper->argument_type[i] & (allowed % 10)) == 0)
-			exit(ft_printf("ERROR: invalid arg type %d for instr %d (id %d)\n",
-				oper->argument_type[i], oper->unique_id, oper->instruction_id));
+		if ((allowed % 10) != 0 && ((allowed % 10) & (oper->argument_type[i] +
+										(oper->argument_type[i] > 2))) == 0)
+			exit(ft_printf("ERROR: invalid argument type\n"));
 		allowed /= 10;
 	}
 }

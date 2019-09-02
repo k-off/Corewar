@@ -97,15 +97,17 @@ static int	set_argument(t_operation *op, char *arg, int arg_nr,
 						int allowed_type)
 {
 	int		arg_type;
+	int		aux;
 	char	*tmp;
 	t_data	*data;
 	t_label	*label;
 
 	arg_type = check_type(arg);
-	if (arg_type == 0 || (arg_type & allowed_type) == 0
-	|| (arg_type == -1 && only_allowed_chars(LABEL_CHARS, &arg[2]) == 0)
-	|| (arg_type == -2 && only_allowed_chars(LABEL_CHARS, &arg[2]) == 0)
-	|| (arg_type == -3 && only_allowed_chars(LABEL_CHARS, &arg[1]) == 0))
+	aux = (arg_type > 2) + (-1) * (arg_type < -2);
+	if (arg_type == 0 || ((arg_type + aux) & allowed_type) == 0
+		|| (arg_type == -1 && only_allowed_chars(LABEL_CHARS, &arg[2]) == 0)
+		|| (arg_type == -2 && only_allowed_chars(LABEL_CHARS, &arg[2]) == 0)
+		|| (arg_type == -3 && only_allowed_chars(LABEL_CHARS, &arg[1]) == 0))
 		return (-1);
 	if (arg_type < 0)
 	{
