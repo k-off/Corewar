@@ -10,29 +10,23 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME = asm
+NAME = dasm
+SRCS = get_instructions.c main.c utils.c
+MKOBJ = @gcc -c -Wall -Wextra -Werror
+HDRS = -I ../includes
+OBJS = get_instructions.o main.o utils.o
+LFT = -L ../libs/libft -lft
+MKEXE = @gcc -o
 
 all: $(NAME)
 $(NAME):
-	@make -C libs/libft
-	@make -C libs/libmlx
-	@make -C asmf
-	@make -C dasmf
-	@mv ./asmf/$(NAME) $(NAME)
-	@mv ./dasmf/dasm dasm
+	$(MKOBJ) $(SRCS) $(HDRS)
+	$(MKEXE) $(NAME) $(OBJS) $(LFT)
 
 clean:
-	@make -C libs/libft clean
-	@make -C libs/libmlx clean
-	@make -C asmf clean
-	@make -C dasmf clean
+	@rm -f $(OBJS)
 
 fclean: clean
-	@make -C libs/libft fclean
-	@make -C libs/libmlx clean
-	@make -C asmf fclean
-	@make -C dasmf fclean
 	@rm -f $(NAME)
-	@rm -f dasm
 
 re: fclean all
