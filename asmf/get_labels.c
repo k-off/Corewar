@@ -23,6 +23,8 @@ int			is_label(char *s)
 	int		i;
 	int		len;
 
+	if (!s)
+		exit(!!ft_printf("ERROR: last label points to nothing\n"));
 	len = (int)ft_strlen(s);
 	if (len < 2 || s[len - 1] != LABEL_CHAR)
 		return (0);
@@ -87,6 +89,27 @@ t_label		*set_label(t_label **label, char *s)
 }
 
 /*
+** @desc	provides a new non-empty line into conversion loop and gets lbl pos
+** @param	t_data		*data	- pointer to the data structure
+** @param	t_label		*label	- current label
+** @return						- void
+*/
+
+static void	get_next(t_label *label, t_data *data)
+{
+	char	*s;
+
+	while (get_clean_string(data, &s) && ft_strlen(s) < 1)
+	{
+		data->line_qty++;
+		free_str_arr(&s, NULL, 1);
+	}
+	data->line_qty++;
+	label->position = get_labels_instructions(data, s);
+	free_str_arr(&s, NULL, 1);
+}
+
+/*
 ** @desc	convert label from the received array of strings
 ** @param	t_data		*data	- pointer to the data structure
 ** @param	char		**tmp	- array of strings, operation arguments
@@ -98,26 +121,19 @@ t_label		*set_label(t_label **label, char *s)
 int			get_label(t_data *data, char **tmp, int tmp_len)
 {
 	t_label	*label;
-	char	*s;
+	int		label_pos;
 
 	label = set_label(&data->label, tmp[0]);
+	label_pos = label->position;
 	if (tmp_len > 1 && is_label(tmp[1]))
 		label->position = get_label(data, &tmp[1], tmp_len - 1);
 	else if (tmp_len > 1 && is_instruction(tmp[1]))
 		label->position = get_instruction(data, &tmp[1],
 								is_instruction(tmp[1]), tmp_len - 1);
 	else if (tmp_len > 1)
-		exit(ft_printf("ERROR: %s at line %d\n", tmp[1], data->line_qty));
+		exit(!!ft_printf("ERROR: %s at line %d\n", tmp[1], data->line_qty));
 	else if (tmp_len < 2)
-	{
-		while (get_clean_string(data, &s) && ft_strlen(s) < 1)
-		{
-			data->line_qty++;
-			free_str_arr(&s, NULL, 1);
-		}
-		data->line_qty++;
-		label->position = get_labels_instructions(data, s);
-		free_str_arr(&s, NULL, 1);
-	}
+		get_next(label, data);
+	label->position = (label_pos == -1) ? label->position : label_pos;
 	return (label->position);
 }

@@ -24,14 +24,14 @@ static char	*set_output_name(char *s)
 	char	**tmp;
 
 	if (ft_strlen(s) < 1)
-		exit(ft_printf("ERROR: output file name not defined\n"));
+		exit(!!ft_printf("ERROR: output file name not defined\n"));
 	tmp = ft_strsplit(s, '.');
 	if (ft_strlen(tmp[0]) > 0)
 		name = ft_strjoin(tmp[0], ".cor");
 	else
 		name = ft_strdup(".cor");
 	if (ft_strlen(name) < 1)
-		exit(ft_printf("ERROR: output file name couldn't be set\n"));
+		exit(!!ft_printf("ERROR: output file name couldn't be set\n"));
 	free_str_arr(NULL, &tmp, 0);
 	return (name);
 }
@@ -47,10 +47,13 @@ static char	*set_output_name(char *s)
 int			get_labels_instructions(t_data *data, char *s)
 {
 	char		**tmp;
+	char		*space_string;
 	int			i;
 	int			res;
 
-	tmp = ft_strsplit_whitespace(s);
+	space_string = add_spaces(&s);
+	tmp = ft_strsplit_whitespace(space_string);
+	free_str_arr(&space_string, NULL, 1);
 	i = 0;
 	while (tmp[i])
 		i++;
@@ -60,8 +63,7 @@ int			get_labels_instructions(t_data *data, char *s)
 	else if (is_instruction(tmp[0]) != 0)
 		res = get_instruction(data, tmp, is_instruction(tmp[0]), i);
 	else if (s[0] != '#')
-		exit(ft_printf("ERROR: not a label / \
-			instruction at line %d\n", data->line_qty));
+		exit(!!ft_printf("ERROR: couldn't read line %d %s\n", data->line_qty));
 	free_str_arr(NULL, &tmp, 0);
 	return (res);
 }
@@ -128,19 +130,20 @@ int			main(int argc, char **argv)
 	t_data	*data;
 
 	if (argc < 2)
-		exit(ft_printf("usage: ./asm file_name\n"));
+		exit(!!ft_printf("usage: ./asm file_name\n"));
 	data = (t_data*)ft_memalloc(sizeof(t_data));
 	get_data(data);
 	data->fd_r = open(argv[argc - 1], O_RDONLY);
 	if (data->fd_r < 3)
-		exit(ft_printf("ERROR: file %s couldn't be read\n", argv[argc - 1]));
+		exit(!!ft_printf("ERROR: file %s couldn't be read\n", argv[argc - 1]));
 	conversion_loop(data);
 	check(data);
 	file_name = set_output_name(argv[argc - 1]);
 	data->fd_w = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (data->fd_w < 3)
-		exit(ft_printf("ERROR: file %s couldn't be created\n", argv[argc - 1]));
+		exit(!!ft_printf("ERROR: file %s not created\n", file_name));
 	write_data(data);
+	ft_printf("Writing output program to %s\n", file_name);
 	close(data->fd_w);
 	close(data->fd_r);
 	return (0);

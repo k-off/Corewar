@@ -77,6 +77,7 @@ typedef struct			s_data
 	t_label				*label;
 }						t_data;
 
+char					*add_spaces(char **s);
 void					check(t_data *data);
 void					free_str_arr(char **s, char ***arr, int flag);
 int						get_arguments(t_operation *op, char **argv,

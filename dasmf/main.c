@@ -49,7 +49,7 @@ static void	get_header(t_data *data)
 
 	ret = read(data->fd_r, (void*)s, 4);
 	if (ret < MAGIC_LENGTH || get_number(s, MAGIC_LENGTH) != COREWAR_EXEC_MAGIC)
-		exit(ft_printf("ERROR: file being read has wrong signature\n"));
+		exit(!!ft_printf("ERROR: file being read has wrong signature\n"));
 	ft_bzero((void*)s, COMMENT_LENGTH + 1);
 	ret = read(data->fd_r, s, PROG_NAME_LENGTH);
 	if (ret < PROG_NAME_LENGTH)
@@ -151,8 +151,9 @@ int			main(int argc, char **argv)
 	file_name = set_output_name(argv[argc - 1]);
 	data->fd_w = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (data->fd_w < 3)
-		exit(!!ft_printf("ERROR: file %s was not created\n", argv[argc - 1]));
+		exit(!!ft_printf("ERROR: file %s was not created\n", file_name));
 	write_data(data->fd_w, data->name, data->comment, data->op);
+	ft_printf("Writing output program to %s\n", file_name);
 	close(data->fd_w);
 	close(data->fd_r);
 	return (0);

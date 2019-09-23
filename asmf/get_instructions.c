@@ -135,7 +135,7 @@ int					get_instruction(t_data *data, char **tmp,
 	if (inst_id == 0)
 		return (0);
 	if (tmp_len < 2)
-		exit(ft_printf("ERROR: no arguments at line %d\n", data->line_qty));
+		exit(!!ft_printf("ERROR: no arguments at line %d\n", data->line_qty));
 	op = set_instruction(data, inst_id, 1);
 	get_arguments(op, &tmp[1], tmp_len - 1, data);
 	set_operation_size(op);

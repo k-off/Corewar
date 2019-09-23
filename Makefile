@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME = asm
+NAME = corewar
 
 all: $(NAME)
 $(NAME):
@@ -18,20 +18,25 @@ $(NAME):
 	@make -C libs/libmlx
 	@make -C asmf
 	@make -C dasmf
-	@mv ./asmf/$(NAME) $(NAME)
+	@make -C vm
+	@mv ./asmf/asm asm
 	@mv ./dasmf/dasm dasm
+	@mv ./vm/corewar corewar
 
 clean:
 	@make -C libs/libft clean
 	@make -C libs/libmlx clean
 	@make -C asmf clean
 	@make -C dasmf clean
+	@make -C vm clean
 
 fclean: clean
 	@make -C libs/libft fclean
 	@make -C libs/libmlx clean
 	@make -C asmf fclean
 	@make -C dasmf fclean
+	@make -C vm fclean
+	@rm -f asm
 	@rm -f $(NAME)
 	@rm -f dasm
 

@@ -116,3 +116,34 @@ int			get_clean_string(t_data *data, char **dst)
 	free_str_arr(&tmp, &arr, 2);
 	return (res);
 }
+
+/*
+** @desc	add spaces into the string to be able to split it
+** @param	char **s			- pointer to string
+** @return						- void
+*/
+
+char		*add_spaces(char **s)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+
+	tmp = (char*)ft_memalloc(sizeof(char) * 2 * (ft_strlen(*s) + 1));
+	i = 0;
+	j = 0;
+	while (s[0][i])
+	{
+		if (s[0][i] == '%' || (i > 0 && s[0][i - 1] == ',')
+			|| (i > 1 && s[0][i - 1] == ':'
+			&& ft_strchr(LABEL_CHARS, s[0][i - 2])))
+		{
+			tmp[j] = ' ';
+			j++;
+		}
+		tmp[j] = s[0][i];
+		j++;
+		i++;
+	}
+	return (tmp);
+}
