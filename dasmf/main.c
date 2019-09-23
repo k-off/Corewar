@@ -24,14 +24,14 @@ static char	*set_output_name(char *s)
 	char	**tmp;
 
 	if (ft_strlen(s) < 1)
-		exit(!!ft_printf("ERROR: output file name not defined\n"));
+		exit(!!ft_printf_fd(2, "ERROR: output file name not defined\n"));
 	tmp = ft_strsplit(s, '.');
 	if (ft_strlen(tmp[0]) > 0)
 		name = ft_strjoin(tmp[0], ".s");
 	else
 		name = ft_strdup(".s");
 	if (ft_strlen(name) < 1)
-		exit(!!ft_printf("ERROR: output file name couldn't be set\n"));
+		exit(!!ft_printf_fd(2, "ERROR: output file name couldn't be set\n"));
 	free_str_arr(NULL, &tmp, 0);
 	return (name);
 }
@@ -49,24 +49,24 @@ static void	get_header(t_data *data)
 
 	ret = read(data->fd_r, (void*)s, 4);
 	if (ret < MAGIC_LENGTH || get_number(s, MAGIC_LENGTH) != COREWAR_EXEC_MAGIC)
-		exit(!!ft_printf("ERROR: file being read has wrong signature\n"));
+		exit(!!ft_printf_fd(2, "ERROR: file being read has wrong signature\n"));
 	ft_bzero((void*)s, COMMENT_LENGTH + 1);
 	ret = read(data->fd_r, s, PROG_NAME_LENGTH);
 	if (ret < PROG_NAME_LENGTH)
-		exit(!!ft_printf("ERROR: file being read is too small\n"));
+		exit(!!ft_printf_fd(2, "ERROR: file being read is too small\n"));
 	data->name = ft_memdup(s, PROG_NAME_LENGTH + 1);
 	ret = read(data->fd_r, s, 8);
 	if (ret < 8 || ((int*)s)[0] != 0)
-		exit(!!ft_printf("ERROR: file being read is corrupt\n"));
+		exit(!!ft_printf_fd(2, "ERROR: file being read is corrupt\n"));
 	data->total_size = (int)get_number(&s[4], sizeof(int));
 	ft_bzero((void*)s, COMMENT_LENGTH + 1);
 	ret = read(data->fd_r, s, COMMENT_LENGTH);
 	if (ret < COMMENT_LENGTH)
-		exit(!!ft_printf("ERROR: file being read is too small\n"));
+		exit(!!ft_printf_fd(2, "ERROR: file being read is too small\n"));
 	data->comment = ft_memdup(s, COMMENT_LENGTH + 1);
 	ret = read(data->fd_r, s, 4);
 	if (ret < 4 || ((int*)s)[0] != 0)
-		exit(!!ft_printf("ERROR: file being read is corrupt\n"));
+		exit(!!ft_printf_fd(2, "ERROR: file being read is corrupt\n"));
 }
 
 /*
@@ -92,11 +92,11 @@ static void	conversion_loop(t_data *data)
 		if (ret < 1)
 			break ;
 		if (s < 1 || s > 16)
-			exit(!!ft_printf("ERROR: %d is not a valid instruction\n", s));
+			exit(!!ft_printf_fd(2, "ERROR: %d is not a valid opcode\n", s));
 		get_instruction(data, (int)s, &data_size);
 	}
 	if (data_size != 0)
-		exit(!!ft_printf("ERROR: champions' executable code size is wrong\n"));
+		exit(!!ft_printf_fd(2, "ERROR: champions' exec. code-size is wrong\n"));
 }
 
 /*
@@ -145,13 +145,14 @@ int			main(int argc, char **argv)
 	data = (t_data*)ft_memalloc(sizeof(t_data));
 	get_data(data);
 	data->fd_r = open(argv[argc - 1], O_RDONLY);
-	if (data->fd_r < 3)
-		exit(!!ft_printf("ERROR: file %s couldn't be read\n", argv[argc - 1]));
+	if (data->fd_r < 3 || read(data->fd_r, data->name, 0) < 0)
+		exit(!!ft_printf_fd(2, "ERROR: file %s couldn't be read\n",
+							argv[argc - 1]));
 	conversion_loop(data);
 	file_name = set_output_name(argv[argc - 1]);
 	data->fd_w = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (data->fd_w < 3)
-		exit(!!ft_printf("ERROR: file %s was not created\n", file_name));
+		exit(!!ft_printf_fd(2, "ERROR: file %s was not created\n", file_name));
 	write_data(data->fd_w, data->name, data->comment, data->op);
 	ft_printf("Writing output program to %s\n", file_name);
 	close(data->fd_w);

@@ -69,7 +69,7 @@ static void	set_argument_value(t_operation *op, char *arg, int arg_nr,
 	if (arg_type > 0 && (ft_strlen(&arg[offset]) < 1 ||
 		(arg[offset] == '-' && (ft_strlen(&arg[offset]) < 2
 		|| ft_strlen(&arg[offset]) > 11)) || ft_strlen(&arg[offset]) > 10))
-		exit(!!ft_printf("ERROR: argument '%s' is invalid (line %d)\n",
+		exit(!!ft_printf_fd(2, "ERROR: argument '%s' is invalid (line %d)\n",
 				arg, data->line_qty));
 	op->argument[arg_nr] = ft_atoi(&arg[offset]) * (arg_type > 0);
 	if (arg_type < 0)

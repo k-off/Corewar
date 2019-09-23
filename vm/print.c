@@ -47,15 +47,15 @@ void	print_arena(unsigned char *arena)
 	address = 0;
 	while (i < 4096)
 	{
-		if (i != 0 && i % 32 == 0)
+		if (i != 0 && i % 64 == 0)
 			ft_printf("%#06x : ", address);
 		else if (i == 0)
 			ft_printf("0x0000 : ");
 		ft_printf("%02hhx ", arena[i]);
-		if (i != 0 && (i + 1) % 32 == 0)
+		if (i != 0 && (i + 1) % 64 == 0)
 		{
 			ft_printf("\n");
-			address = address + 32;
+			address = address + 64;
 		}
 		i++;
 	}

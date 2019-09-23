@@ -24,7 +24,7 @@ int			is_label(char *s)
 	int		len;
 
 	if (!s)
-		exit(!!ft_printf("ERROR: last label points to nothing\n"));
+		exit(!!ft_printf_fd(2, "ERROR: last label points to nothing\n"));
 	len = (int)ft_strlen(s);
 	if (len < 2 || s[len - 1] != LABEL_CHAR)
 		return (0);
@@ -131,7 +131,8 @@ int			get_label(t_data *data, char **tmp, int tmp_len)
 		label->position = get_instruction(data, &tmp[1],
 								is_instruction(tmp[1]), tmp_len - 1);
 	else if (tmp_len > 1)
-		exit(!!ft_printf("ERROR: %s at line %d\n", tmp[1], data->line_qty));
+		exit(!!ft_printf_fd(2, "ERROR: %s at line %d\n",
+				tmp[1], data->line_qty));
 	else if (tmp_len < 2)
 		get_next(label, data);
 	label->position = (label_pos == -1) ? label->position : label_pos;

@@ -37,9 +37,11 @@ static void	add_newline(char **s)
 static void	check_lengths(char *s, int flag)
 {
 	if (flag == 1 && ft_strlen(s) > PROG_NAME_LENGTH)
-		exit(!!ft_printf("ERROR: .name too long (max %d)\n", PROG_NAME_LENGTH));
+		exit(!!ft_printf_fd(2, "ERROR: .name too long (%d) > max len (%d)\n",
+				ft_strlen(s), PROG_NAME_LENGTH));
 	if (flag == 0 && ft_strlen(s) > COMMENT_LENGTH)
-		exit(!!ft_printf("ERROR: .coment too long (max %d)\n", COMMENT_LENGTH));
+		exit(!!ft_printf_fd(2, "ERROR: .coment too long (%d) > max len (%d)\n",
+				ft_strlen(s), COMMENT_LENGTH));
 }
 
 /*
@@ -94,7 +96,8 @@ static void	get_multiple_lines(t_data *data, char **s, int flag)
 		data->line_qty++;
 		if (ft_strstr(read_tmp, NAME_CMD_STRING)
 			|| ft_strstr(read_tmp, COMMENT_CMD_STRING))
-			exit(!!ft_printf("ERROR: no quote (lin %d)\n", data->line_qty - 1));
+			exit(!!ft_printf_fd(2, "ERROR: missing closing quote (line %d)\n",
+					data->line_qty - 1));
 		join_tmp = ft_strjoin(*s, read_tmp);
 		free_str_arr(s, NULL, 1);
 		free_str_arr(&read_tmp, NULL, 1);
@@ -123,7 +126,7 @@ void		get_name_comment(t_data *data, char *s, int flag)
 	tmp = ft_strsplit(s, '"');
 	one_line = on_same_line(s);
 	if (one_line == -1)
-		exit(!!ft_printf("ERROR: no quotes (line %d)\n", data->line_qty));
+		exit(!!ft_printf_fd(2, "ERROR: no quotes (line %d)\n", data->line_qty));
 	if (tmp[1])
 		s = ft_strdup(tmp[1]);
 	else
@@ -135,7 +138,9 @@ void		get_name_comment(t_data *data, char *s, int flag)
 	check_lengths(s, flag);
 	if (flag == 1 && !data->name)
 		data->name = s;
-	if (flag == 2 && !data->comment)
+	else if (flag == 2 && !data->comment)
 		data->comment = s;
+	else
+		exit(!!ft_printf_fd(2, "ERROR: redifinition of name or comment\n"));
 	free_str_arr(NULL, &tmp, 0);
 }

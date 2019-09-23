@@ -98,7 +98,7 @@ static int			get_value(char **args, int arg_nr, unsigned octet, int c)
 	size = (type == 1) ? 1 : size;
 	c = (int)read(get_data(NULL)->fd_r, s, size);
 	if (c != size && (int)ft_strlen((char*)s) != size)
-		exit(!!ft_printf("ERROR: couldn't read argument value\n"));
+		exit(!!ft_printf_fd(2, "ERROR: couldn't read argument value\n"));
 	value = get_number(s, size);
 	tmp = (char**)ft_memalloc(sizeof(char*) * 3);
 	tmp[1] = ft_itoa(value);
@@ -167,7 +167,7 @@ void				get_instruction(t_data *data, int opcod, int *data_size)
 
 	op = set_new_operation(data);
 	if (op == NULL)
-		exit(!!ft_printf("ERROR: operation struct wasn't allocated\n"));
+		exit(!!ft_printf_fd(2, "ERROR: operation struct wasn't allocated\n"));
 	op->name = set_name(opcod);
 	i = 0;
 	if (OCTAL[opcod] != 0)

@@ -43,7 +43,7 @@ static void	split_args(char **res, char ***tmp, int argc, int line_nr)
 		i[0]++;
 	}
 	if (i[2] > MAX_ARGS)
-		exit(!!ft_printf("ERROR: excess arguments (>MAX_ARGS) at line %d\n",
+		exit(!!ft_printf_fd(2, "ERROR: excess args (>MAX_ARGS) at line %d\n",
 				line_nr));
 	res[i[2]] = 0;
 }
@@ -63,7 +63,7 @@ static char	**get_clean(int argc, char **argv, int line_nr)
 	int			i;
 
 	if (MAX_ARGS < 1)
-		exit(!!ft_printf("ERROR: MAX_ARGS value is not valid\n"));
+		exit(!!ft_printf_fd(2, "ERROR: MAX_ARGS value is not valid\n"));
 	res = (char**)ft_memalloc(sizeof(char*) * (MAX_ARGS + 1));
 	tmp = (char***)ft_memalloc(sizeof(char**) * (argc + 1));
 	i = 0;
@@ -99,10 +99,11 @@ int			get_arguments(t_operation *op, char **argv, int argc, t_data *data)
 		i++;
 	args_qty = ARGS_QTY[op->instruction_id];
 	if (i != args_qty)
-		exit(!!ft_printf("ERROR: wrong args qty(line %d)\n", data->line_qty));
+		exit(!!ft_printf_fd(2, "ERROR: wrong arguments amount(line %d)\n",
+							data->line_qty));
 	allowed_types = ARGS_TYPES[op->instruction_id];
 	if (set_arguments(op, clean_args, allowed_types, args_qty) < 0)
-		exit(!!ft_printf("ERROR: an argument is not valid(line %d)\n",
+		exit(!!ft_printf_fd(2, "ERROR: an argument is not valid(line %d)\n",
 			data->line_qty));
 	op->octet *= OCTAL[op->instruction_id];
 	free_str_arr(NULL, &clean_args, 0);
