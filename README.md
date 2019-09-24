@@ -3,7 +3,7 @@
 Corewar is an algorythmic project at Codam (42). The purpose of this project is an implementation of the programming game **“Core War”**.
 
 
-[corewar.en.pdf](/corewar.en.pdf) is the subject.
+[SUBJECT](/COREWAR_SUBJECT.pdf)
 
 Task resources are placed at [the `resources` folder](/sresources/).
 
