@@ -61,20 +61,16 @@ Usage: ./asm (champion.cor)
 Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     -a          : Print output from "aff" (Default is off)
     -dump <num> : Dump memory (64 octets per line) after <num> cycles and exit
-    -show <num> : Run <num> cycles, dump memory (32 octets per line), pause and repeat
-    -s    <num> : Run <num> cycles, dump memory (64 octets per line), pause and repeat
-    -l    <num> : Log levels
-                   1  : Show lives
-                   2  : Show cycles
-                   4  : Show operations
-                   8  : Show deaths
-                   16 : Show PC movements
     -v          : Run visualizer
     -n    <num> : Set <num> of the next player
 ```
 
 ## Visualizer
 
-The best visualizer performance is with **iTerm2**.
+    up/down arrows    : switch between players
+    left/right arrows : switch between processes of selected player
+    space             : pause/continue execution
+    <                 : go to previous cycle if execution is paused
+    >, tab            : go to next cycle if execution is paused
 
-![Visualizer](/wiki_resources/visualizer.png)
+To change the history depth, modify the HIST_DEPTH in the visual.h
