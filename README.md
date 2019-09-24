@@ -3,7 +3,7 @@
 Corewar is an algorythmic project at Codam (42). The purpose of this project is an implementation of the programming game **“Core War”**.
 
 The project was performed in a group:
-    the virtual machine and the 'champion' were created by @supalarry and Vincent Mulder
+    the virtual machine and the 'champion' were created by [@supalarry](https://github.com/supalarry) and Vincent Mulder
     the assembler, disassembler and the visualizer were my duty
 
 [SUBJECT](/COREWAR_SUBJECT.pdf)
@@ -70,12 +70,14 @@ Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     -n    <num> : Set <num> of the next player
 ```
 
-## Visualizer
+### 'Visualizer'
 
+```
     up/down arrows    : switch between players
     left/right arrows : switch between processes of selected player
     space             : pause/continue execution
     <                 : go to previous cycle if execution is paused
     >, tab            : go to next cycle if execution is paused
+```
 
 To change the history depth, modify the HIST_DEPTH in the visual.h
