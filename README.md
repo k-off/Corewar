@@ -70,7 +70,7 @@ Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     -n    <num> : Set <num> of the next player
 ```
 
-### 'Visualizer'
+### `visualizer`
 
 ```
     up/down arrows    : switch between players
