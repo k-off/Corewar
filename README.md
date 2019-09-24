@@ -2,16 +2,21 @@
 
 Corewar is an algorythmic project at Codam (42). The purpose of this project is an implementation of the programming game **“Core War”**.
 
+The project was performed in a group:
+    the virtual machine and the 'champion' were created by @supalarry and Vincent Mulder
+    the assembler, disassembler and the visualizer were my duty
 
 [SUBJECT](/COREWAR_SUBJECT.pdf)
 
-Task resources are placed at [the `resources` folder](/sresources/).
+[RESOURCES](/resources/)
+
+[Wikipedia](https://en.wikipedia.org/wiki/Core_War)
 
 ## Wiki
 
 This project has a guide.
 
-You can read it [at the wiki-pages](../../wiki/).
+You can read it at the [wiki-pages](../../wiki/).
 
 ## Project Structure
 
