@@ -1,6 +1,6 @@
 # Corewar
 
-Corewar is an algorythmic project at Codam (42). The purpose of this project is an implementation of the programming game **“Core War”**.
+Corewar is an algorythmic project at Codam (42). The purpose of this project is to recode the programming game **“Core War”**.
 
 The project was performed in a group:
 
@@ -8,7 +8,7 @@ the virtual machine and the 'champion' were created by [@supalarry](https://gith
     
 the assembler, disassembler and the visualizer were my duty
     
-There is [my own buggy vm](/my_buggy_vm/) included in the repo, and which I am still working on©️.
+There is [my own buggy vm](/my_buggy_vm/) included in the repo. I am working on it©️.
 
 [SUBJECT](/COREWAR_SUBJECT.pdf)
 
@@ -55,15 +55,15 @@ make
 ### `assembler`
 
 ```
-Usage: ./asm (champion.s|champion.cor)
-    champion.s   — from assemble to bytecode
+Usage: ./asm (champion.s)
+    champion.s   — convert from assembly to bytecode
 ```
 
 ### `disassembler`
 
 ```
-Usage: ./asm (champion.cor)
-    champion.cor — from bytecode to assemble
+Usage: ./dasm (champion.cor)
+    champion.cor — convert from bytecode to assembly
 ```
 
 ### `corewar`
@@ -74,6 +74,7 @@ Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     -dump <num> : Dump memory (64 octets per line) after <num> cycles and exit
     -v          : Run visualizer
     -n    <num> : Set <num> of the next player
+    -L          : Print all the reports 'alive' to the standard output
 ```
 
 ### `visualizer`
@@ -84,6 +85,22 @@ Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     space             : pause/continue execution
     <                 : go to previous cycle and pause the game
     >, tab            : go to next cycle and pause the game
+    To change the history depth(amount of previous cycles available to visualizer), modify the HIST_DEPTH in the visual.h
 ```
 
-To change the history depth, modify the HIST_DEPTH in the visual.h
+### `tester`
+
+There is a simple tester included in the repo.
+
+To run it:
+
+```
+    cd test
+    sh test.sh -all
+```
+
+It will check makefile, Norminette (complinace with the internal 42 coding standards), assembler, disassembler and the vm against the outputs and behaviour of the reference files `original_asm` and `original_corewar` from the directory `test`.
+
+** Important **
+
+If you don't have the norminette script installed on your machine, you may want to delete or comment out lines 27-34 from the file `test.sh`.
