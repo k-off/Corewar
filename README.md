@@ -3,7 +3,9 @@
 Corewar is an algorythmic project at Codam (42). The purpose of this project is an implementation of the programming game **“Core War”**.
 
 The project was performed in a group:
+
     the virtual machine and the 'champion' were created by [@supalarry](https://github.com/supalarry) and [@mincentvulder](https://github.com/mincentvulder)
+    
     the assembler, disassembler and the visualizer were my duty
     
 There is [my own buggy vm](/my_buggy_vm/) included in the repo, and which I am still working on©️.
