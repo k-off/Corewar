@@ -82,8 +82,8 @@ Usage: ./corewar [-a (-dump) <num> [-v] [-n <num>] <champion.cor> <...>
     up/down arrows    : switch between players
     left/right arrows : switch between processes of selected player
     space             : pause/continue execution
-    <                 : go to previous cycle if execution is paused
-    >, tab            : go to next cycle if execution is paused
+    <                 : go to previous cycle and pause the game
+    >, tab            : go to next cycle and pause the game
 ```
 
 To change the history depth, modify the HIST_DEPTH in the visual.h
