@@ -7,7 +7,9 @@ The project was performed in a group:
 the virtual machine and the 'champion' were created by [@supalarry](https://github.com/supalarry) and [@mincentvulder](https://github.com/mincentvulder)
     
 the assembler, disassembler and the visualizer were my duty
-    
+
+![alt text](https://repository-images.githubusercontent.com/205827033/21423900-e07e-11e9-86dc-5655452547fa)
+
 There is [my own buggy vm](/my_buggy_vm/) included in the repo. I am working on it©️.
 
 [SUBJECT](/COREWAR_SUBJECT.pdf)
